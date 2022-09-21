@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        process-in-0:
+          destination: sensor-topic
+          consumer:
+            useNativeEncoding: true
+
+      kafka:
+        bindings:
+          process-in-0:
+            consumer:
+              configuration:
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                schema.registry.url: http://localhost:8081
+                auto.register.schemas: true
+
+server:
+  port: 0
