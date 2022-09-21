@@ -9,6 +9,9 @@ spring:
             useNativeEncoding: true
 
       kafka:
+        binder:
+          autoAddPartitions: true
+          minPartitionCount: 8
         bindings:
           supplier-out-0:
             producer:
