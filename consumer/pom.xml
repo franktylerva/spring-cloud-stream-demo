@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>sensor-api</artifactId>
-			<version>v1.0.0</version>
+			<version>${sensor-api-version}</version>
 		</dependency>
 
 		<dependency>

@@ -16,6 +16,7 @@ spring:
           process-in-0:
             consumer:
               configuration:
+                specific.avro.reader: true
                 value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
                 schema.registry.url: http://localhost:8081
                 auto.register.schemas: true
