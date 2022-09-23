@@ -6,12 +6,12 @@
 
     <groupId>com.example</groupId>
     <artifactId>sensor-api</artifactId>
-    <version>v2.0.0</version>
+    <version>v1.0.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <avro.version>1.8.2</avro.version>
+        <avro.version>1.11.1</avro.version>
     </properties>
     <dependencies>
         <dependency>
