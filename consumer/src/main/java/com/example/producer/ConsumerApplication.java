@@ -22,7 +22,7 @@ public class ConsumerApplication {
 
 	@Bean
 	public Consumer<Sensor> process()  {
-		return input -> log.info("The temperature is: {}}", input.getTemperature());
+		return sensor -> log.info("Sensor Received: {}}", sensor);
 	}
 
 }

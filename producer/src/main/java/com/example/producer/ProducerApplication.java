@@ -1,6 +1,8 @@
 package com.example.producer;
 
 import com.example.Sensor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +24,8 @@ public class ProducerApplication {
 
 	private BlockingQueue<Sensor> unbounded = new LinkedBlockingQueue<>();
 
+	private Logger logger = LoggerFactory.getLogger(ProducerApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
@@ -37,7 +41,9 @@ public class ProducerApplication {
 
 	@PostMapping("/messages")
 	public String sendMessage() {
-		unbounded.offer(randomSensor());
+		Sensor sensor = randomSensor();
+		logger.info("Sensor Sent: {}", sensor);
+		unbounded.offer(sensor);
 		return "ok, have fun with v1 payload!";
 	}
 
