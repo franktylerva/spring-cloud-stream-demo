@@ -17,7 +17,8 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.4</spring-cloud.version>
 		<confluent.version>7.2.1</confluent.version>
-		<sensor-api-version>v1.0.0</sensor-api-version>
+		<sensor-api-version>v2.0.0</sensor-api-version>
+		<avro.version>1.11.1</avro.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,9 +39,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>sensor-api</artifactId>
-			<version>v1.0.0</version>
+			<version>${sensor-api-version}</version>
 		</dependency>
 
 		<dependency>
