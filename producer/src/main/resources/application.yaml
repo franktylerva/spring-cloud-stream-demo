@@ -1,10 +1,14 @@
 spring:
   cloud:
+    function:
+      definition: supplier
     stream:
       bindings:
         supplier-out-0:
-          contentType: application/*+avro
           destination: sensor-topic
+          content-type: application/*+avro
+#          Commenting out this allows schema evolution to work properly but the schema and messages
+#          produced in Kafka are just bytes, so you can't view the schema with Confluent Control Center
           producer:
             useNativeEncoding: true
 
@@ -16,6 +20,7 @@ spring:
           supplier-out-0:
             producer:
               configuration:
+                key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
                 value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
                 schema.registry.url: http://localhost:8081
                 auto.register.schemas: true

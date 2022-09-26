@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +24,7 @@ public class ProducerApplication {
 
 	private Random random = new Random();
 
-	private BlockingQueue<Sensor> unbounded = new LinkedBlockingQueue<>();
+	private BlockingQueue<Message<Sensor>> unbounded = new LinkedBlockingQueue<>();
 
 	private Logger logger = LoggerFactory.getLogger(ProducerApplication.class);
 
@@ -30,25 +32,30 @@ public class ProducerApplication {
 		SpringApplication.run(ProducerApplication.class, args);
 	}
 
-	private Sensor randomSensor() {
+	private Message<Sensor> randomSensor() {
 		Sensor sensor = new Sensor();
 		sensor.setId(UUID.randomUUID().toString() + "-v1");
 		sensor.setAcceleration(random.nextFloat() * 10);
 		sensor.setVelocity(random.nextFloat() * 100);
-		sensor.setTemperature(random.nextFloat() * 50);
-		return sensor;
+		sensor.setInternalTemperature(random.nextFloat() * 50);
+		sensor.setExternalTemperature(random.nextFloat() * 49);
+//		sensor.setTemperature(random.nextFloat() * 50);
+
+		return MessageBuilder.withPayload(sensor)
+				.setHeader("contentType", "application/*+avro")
+				.build();
 	}
 
 	@PostMapping("/messages")
 	public String sendMessage() {
-		Sensor sensor = randomSensor();
+		Message<Sensor> sensor = randomSensor();
 		logger.info("Sensor Sent: {}", sensor);
 		unbounded.offer(sensor);
 		return "ok, have fun with v1 payload!";
 	}
 
 	@Bean
-	public Supplier<Sensor> supplier() {
+	public Supplier<Message<Sensor>> supplier() {
 		return () -> unbounded.poll();
 	}
 

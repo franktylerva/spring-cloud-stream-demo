@@ -1,10 +1,17 @@
 spring:
+  application:
+    name: consumer
   cloud:
     stream:
+      function:
+        definition: process
       bindings:
         process-in-0:
           destination: sensor-topic
           group: ${spring.application.name}
+          content-type: application/*+avro
+#          Commenting out this allows schema evolution to work properly but the schema and messages
+#          produced in Kafka are just bytes, so you can't view the schema with Confluent Control Center
           consumer:
             useNativeEncoding: true
 
@@ -17,7 +24,9 @@ spring:
             consumer:
               configuration:
                 specific.avro.reader: true
-                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                key.serializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                value.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+                spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
                 schema.registry.url: http://localhost:8081
                 auto.register.schemas: true
 

@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Consumer;
 
@@ -21,8 +23,8 @@ public class ConsumerApplication {
 	}
 
 	@Bean
-	public Consumer<Sensor> process()  {
-		return sensor -> log.info("Sensor Received: {}}", sensor);
+	public Consumer<Message<Sensor>> process()  {
+		return message -> log.info("Sensor Received: {}}", message);
 	}
 
 }
