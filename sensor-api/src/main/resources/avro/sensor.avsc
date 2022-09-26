@@ -1,26 +1,28 @@
 {
-  "namespace": "com.example",
-  "type": "record",
-  "name": "Sensor",
-  "fields": [
+  "namespace" : "com.example",
+  "type" : "record",
+  "name" : "Sensor",
+  "fields" : [
+    {"name":"id","type":"string"},
+    {"name":"internalTemperature", "type":"float", "default":0.0, "aliases":["temperature"]},
+    {"name":"externalTemperature", "type":"float", "default":0.0},
+    {"name":"acceleration", "type":"float","default":0.0},
+    {"name":"velocity","type":"float","default":0.0},
     {
-      "name": "id",
-      "type": "string"
+      "name":"accelerometer",
+      "type":[
+        "null",{
+          "type":"array",
+          "items":"float"
+        }],
+      "default":null
     },
-    {
-      "name": "temperature",
-      "type": "float",
-      "default": 0.0
-    },
-    {
-      "name": "acceleration",
-      "type": "float",
-      "default": 0.0
-    },
-    {
-      "name": "velocity",
-      "type": "float",
-      "default": 0.0
+    {"name":"magneticField","type":[
+      "null",{
+        "type":"array",
+        "items":"float"
+      }],
+      "default":null
     }
   ]
 }
